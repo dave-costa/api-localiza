@@ -8,7 +8,7 @@ export default class User extends BaseModel {
   @column()
   public name: string
   @column()
-  public lastName: string
+  public last_name: string
   @column()
   public local: string
   @column()
@@ -16,7 +16,7 @@ export default class User extends BaseModel {
   @column({ serializeAs: null })
   public password: string
   @column()
-  public biNumber: string
+  public bi_number: string
   @column()
   public photo: string
   @column.dateTime({ autoCreate: true })
