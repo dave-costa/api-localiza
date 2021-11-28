@@ -1,16 +1,12 @@
-version: '3.8'
+version: '3.7'
 services:
   db:
-    image: postgres
-    environment:
-      POSTGRES_USER: localiza.co
-      POSTGRES_PASSWORD: localiza271004
-      POSTGRES_DB: localiza.io
+    image: postgres:13
+    container_name: localiza
+    restart: always
     ports:
-      -"5432: 5432"
-    volumes: -var/lib/postgres
-    networks:
-      - localiza-network
-  networks:
-    localiza-network:
-      driver: bridge
+      - 5432:5432
+    environment:
+      POSTGRES_USER: localiza.ao
+      POSTGRES_PASSWORD: localiza271004
+      POSTGRES_DB: localizaDB
