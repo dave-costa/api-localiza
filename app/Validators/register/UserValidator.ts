@@ -8,11 +8,11 @@ export default class UserValidator {
     last_name: schema.string({ trim: true }),
     local: schema.string({ trim: true }),
     email: schema.string({ trim: true }, [
-      rules.email,
+      rules.email(),
       rules.unique({ table: 'users', column: 'email' }),
     ]),
     password: schema.string({ trim: true }),
-    bi_number: schema.string({ trim: true }, [rules.unique]),
+    biNumber: schema.string({ trim: true }, [rules.unique({ table: 'users', column: 'email' })]),
     photo: schema.string({ trim: true }),
   })
   public messages = {}
