@@ -58,5 +58,8 @@ export default class UsersController {
     await user.save()
   }
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ params }: HttpContextContract) {
+    const user = await User.findOrFail(params.id)
+    await user.delete()
+  }
 }
