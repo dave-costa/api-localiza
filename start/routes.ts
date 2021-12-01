@@ -1,4 +1,3 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('/', 'register/UsersController.store')
-Route.put('/:id', 'register/UsersController.update')
+Route.get('/user-message', 'Messages/ConversationsController.index').middleware('auth')
