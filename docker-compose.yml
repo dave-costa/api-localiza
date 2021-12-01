@@ -10,3 +10,8 @@ services:
       POSTGRES_USER: localiza.ao
       POSTGRES_PASSWORD: localiza271004
       POSTGRES_DB: localizaDB
+  redis:
+    image: 'redis:alpine'
+    container_name: redis
+    ports:
+      - 6379:6379

@@ -26,6 +26,14 @@ export default Env.rules({
   PG_DB_NAME: Env.schema.string(),
 
   //end db configure
+
+  //start redis configure
+
+  REDIS_CONNECTION: Env.schema.enum(['local'] as const),
+  REDIS_HOST: Env.schema.string({ format: 'host' }),
+  REDIS_PORT: Env.schema.number(),
+  REDIS_PASSWORD: Env.schema.string.optional(),
+  //end redis configure
   APP_KEY: Env.schema.string(),
   APP_NAME: Env.schema.string(),
   DRIVE_DISK: Env.schema.enum(['local'] as const),
