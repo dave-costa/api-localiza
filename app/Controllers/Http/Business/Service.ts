@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { Service, User } from 'App/Models'
-import { ServiceValidator } from 'App/Validators'
+import { Service as ServiceValidator } from 'App/Validators/Business'
 
 export default class ServicesController {
   public async index({}: HttpContextContract) {

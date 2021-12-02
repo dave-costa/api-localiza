@@ -1,19 +1,17 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import User from 'App/Models/User'
-import { PreRegisterValidator } from 'App/Validators/'
-import { AxiosClient } from 'App/Services/axios'
+import { FirstAccess } from 'App/Validators/User'
+import { AxiosClient } from 'App/Services/Axios'
 
 export default class UsersController {
-  public async index({ params }: HttpContextContract) {
-    const user = await User.findOrFail(params.id)
-    return user
-  }
-
   public async store({ request, response }: HttpContextContract) {
     await Database.transaction(async (trx) => {
-      const { biNumber } = await request.validate(PreRegisterValidator)
+      const { biNumber } = await request.validate(FirstAccess)
       const userMy = new User()
+      if (biNumber === userMy.bi_number) {
+        return response.badRequest({ message: 'user already exists, update your data' })
+      }
       userMy.useTransaction(trx)
       userMy.bi_number = biNumber
 
@@ -41,15 +39,13 @@ export default class UsersController {
       userMy.name = user.FIRST_NAME
       userMy.last_name = user.LAST_NAME
       userMy.local = user.RESIDENCE_ADDRESS + user.RESIDENCE_NEIGHBOR
-      const sendUserProperty = {
-        biNumber: userMy.bi_number,
-        name: userMy.name,
-        lastName: userMy.last_name,
-        local: userMy.local,
-      }
       await userMy.save()
-      return response.ok({ user: sendUserProperty })
+      return userMy
     })
+  }
+  public async show({ params }: HttpContextContract) {
+    const user = await User.findOrFail(params.id)
+    return user
   }
 
   public async update({ request, params }: HttpContextContract) {
@@ -57,15 +53,5 @@ export default class UsersController {
     const user = await User.findOrFail(params.id)
     user.merge(response)
     await user.save()
-  }
-
-  public async destroy({ params, response }: HttpContextContract) {
-    const user = await User.findOrFail(params.id)
-    try {
-      await user.delete()
-      response.ok({ message: 'user deleted with success' })
-    } catch (err) {
-      response.notImplemented({ message: 'sorry, try more later' })
-    }
   }
 }

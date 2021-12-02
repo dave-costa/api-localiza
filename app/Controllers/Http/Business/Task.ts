@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { TaskValidator } from 'App/Validators'
+import { Task as TaskValidator } from 'App/Validators/Business'
 import { Task, User } from 'App/Models'
 
 export default class TasksController {

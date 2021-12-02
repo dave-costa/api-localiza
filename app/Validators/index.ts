@@ -1,7 +1,0 @@
-export { default as UserValidator } from './User/UserValidator'
-export { default as PreRegisterValidator } from './User/PreRegisterValidator'
-export { default as StoreValidator } from './Auth/StoreValidator'
-export { default as TaskValidator } from './User/TaskValidator'
-export { default as ServiceValidator } from './business/ServiceValidator'
-export { default as ContractValidator } from './business/ContractValidator'
-export { default as MainValidator } from './Messages/MainValidator'

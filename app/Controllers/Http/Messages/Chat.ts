@@ -1,10 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { MainValidator } from 'App/Validators'
+import { Message as MessageValidator } from 'App/Validators/Messages'
 import { Conversation, Message } from 'App/Models'
 
 export default class Messages {
   public async store({ request, response, auth }: HttpContextContract) {
-    const { content, receiver } = await request.validate(MainValidator)
+    const { content, receiver } = await request.validate(MessageValidator)
     console.log(auth.user!.id)
     if (auth.user!.id === receiver) {
       return response.badRequest({ message: 'try other user' })
