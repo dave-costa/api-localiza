@@ -23,7 +23,7 @@ export default class UserSeeder extends BaseSeeder {
         email: 'stephanie.c@gmail.com',
 
         password: 'secret',
-        bi_number: '82347828413',
+        bi_number: '823sadassd',
         photo: 'fafkasndadsaa',
       },
     ])

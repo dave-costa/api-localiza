@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { Service, User } from 'App/Models'
+import { Service } from 'App/Models'
 import { Service as ServiceValidator } from 'App/Validators/Business'
 
 export default class ServicesController {
@@ -13,25 +13,31 @@ export default class ServicesController {
     const user = await auth.authenticate()
     data.user_service_id = Number(user.id)
     const service = await Service.create(data)
+    await service.load('user_service')
     return service
   }
 
-  public async show({ params }: HttpContextContract) {
-    const service = await Service.findOrFail(Number(params.id))
-    const user = await User.findOrFail(Number(service.user_service_id))
-    return { service, user }
+  public async show({ response, params }: HttpContextContract) {
+    const service = await Service.find(Number(params.id))
+
+    if (!service) return response.notFound({ error: 'service not found' })
+    await service.load('user_service')
+    return service
   }
 
-  public async update({ request, params }: HttpContextContract) {
-    const data = await request.validate(ServiceValidator)
-    const service = await Service.findOrFail(Number(params.id))
+  public async update({ request, params, response }: HttpContextContract) {
+    const data = request.only(['name_service', 'location'])
+    const service = await Service.find(Number(params.id))
+    if (!service) return response.notFound({ message: 'service not found' })
     service.merge(data)
     await service.save()
+    await service.load('user_service')
     return service
   }
 
-  public async destroy({ params }: HttpContextContract) {
-    const service = await Service.findOrFail(Number(params.id))
+  public async destroy({ params, response }: HttpContextContract) {
+    const service = await Service.find(Number(params.id))
+    if (!service) return response.notFound({ message: 'service not found' })
     await service.delete()
   }
 }
